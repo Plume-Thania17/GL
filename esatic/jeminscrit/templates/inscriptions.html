@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h3 class="mb-4">Formulaire d'inscription</h3>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nom</label>
+                {{ form.nom }}
+                {% if form.nom.errors %}
+                    <div class="text-danger">{{ form.nom.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Prénoms</label>
+                {{ form.prenoms }}
+                {% if form.prenoms.errors %}
+                    <div class="text-danger">{{ form.prenoms.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Ajouter les autres champs de la même manière -->
+        
+        <div class="mb-3">
+            <label class="form-label">Date de naissance</label>
+            {{ form.date_naissance }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Niveau d'études</label>
+            {{ form.niveau_etudes }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Établissement d'origine</label>
+            {{ form.etablissement_origine }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Concours souhaité</label>
+            {{ form.concours_souhaite }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Téléphone</label>
+            {{ form.telephone }}
+        </div>
+        
+        <h4 class="mt-4 mb-3">Documents à fournir</h4>
+        
+        <div class="mb-3">
+            <label class="form-label">Extrait de naissance (PDF)</label>
+            {{ form.extrait_naissance }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Certificat de scolarité ou diplôme (PDF)</label>
+            {{ form.certificat }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Lettre de motivation (PDF)</label>
+            {{ form.lettre_motivation }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Diplôme (PDF)</label>
+            {{ form.diplome }}
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Photo d'identité (JPG/PNG)</label>
+            {{ form.photo }}
+        </div>
+        
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" required>
+            <label class="form-check-label">Je certifie que les informations fournies sont exactes</label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Soumettre l'inscription</button>
+    </form>
+</div>
+{% endblock %}
