@@ -1,94 +1,270 @@
 {% extends 'base.html' %}
+{% block body_class %}no-wave{% endblock %}
+{% block title %}Inscription au concours{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h3 class="mb-4">Formulaire d'inscription</h3>
+<style>
+    /* Form Container */
+    .form-container {
+        background-color: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
     
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Nom</label>
-                {{ form.nom }}
-                {% if form.nom.errors %}
-                    <div class="text-danger">{{ form.nom.errors }}</div>
-                {% endif %}
+    /* Form Elements */
+    .form-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+    }
+    
+    .form-control, .form-select {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .form-text {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    
+    /* File Input */
+    .form-control[type="file"] {
+        padding: 8px;
+    }
+    
+    /* Checkbox */
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-top: 0.2rem;
+    }
+    
+    .form-check-label {
+        margin-left: 5px;
+        color: var(--dark-color);
+    }
+    
+    /* Alert */
+    .alert-info {
+        background-color: rgba(52, 152, 219, 0.1);
+        border-color: rgba(52, 152, 219, 0.2);
+        color: var(--primary-color);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 20px;
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="form-container">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold">Formulaire d'inscription</h3>
+                    <p class="text-muted">Veuillez remplir tous les champs requis pour vous inscrire au concours d'entrée</p>
+                </div>
+                
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Informations personnelles</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Nom <span class="text-danger">*</span></label>
+                                    {{ form.nom }}
+                                    {% if form.nom.errors %}
+                                        <div class="text-danger small mt-1">{{ form.nom.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Prénoms <span class="text-danger">*</span></label>
+                                    {{ form.prenoms }}
+                                    {% if form.prenoms.errors %}
+                                        <div class="text-danger small mt-1">{{ form.prenoms.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Date de naissance <span class="text-danger">*</span></label>
+                                    {{ form.date_naissance }}
+                                    {% if form.date_naissance.errors %}
+                                        <div class="text-danger small mt-1">{{ form.date_naissance.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Téléphone <span class="text-danger">*</span></label>
+                                    {{ form.telephone }}
+                                    {% if form.telephone.errors %}
+                                        <div class="text-danger small mt-1">{{ form.telephone.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">Nous vous enverrons une confirmation à cette adresse.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Informations académiques</h5>
+                        </div>
+                        <div class="card-body" style="position: relative;">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Niveau d'études <span class="text-danger">*</span></label>
+                                    {{ form.niveau_etudes }}
+                                    {% if form.niveau_etudes.errors %}
+                                        <div class="text-danger small mt-1">{{ form.niveau_etudes.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Établissement d'origine <span class="text-danger">*</span></label>
+                                    <div style="position: relative; z-index: 2;">
+                                        {{ form.etablissement_origine }}
+                                    </div>
+                                    {% if form.etablissement_origine.errors %}
+                                        <div class="text-danger small mt-1">{{ form.etablissement_origine.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Concours souhaité <span class="text-danger">*</span></label>
+                                {{ form.concours_souhaite }}
+                                {% if form.concours_souhaite.errors %}
+                                    <div class="text-danger small mt-1">{{ form.concours_souhaite.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Documents à fournir</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info mb-4">
+                                <i class="fas fa-info-circle me-2"></i> Tous les documents doivent être au format PDF, à l'exception de la photo d'identité (JPG ou PNG).
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Extrait de naissance (PDF) <span class="text-danger">*</span></label>
+                                    {{ form.extrait_naissance }}
+                                    {% if form.extrait_naissance.errors %}
+                                        <div class="text-danger small mt-1">{{ form.extrait_naissance.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Certificat de scolarité (PDF) <span class="text-danger">*</span></label>
+                                    {{ form.certificat }}
+                                    {% if form.certificat.errors %}
+                                        <div class="text-danger small mt-1">{{ form.certificat.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Lettre de motivation (PDF) <span class="text-danger">*</span></label>
+                                    {{ form.lettre_motivation }}
+                                    {% if form.lettre_motivation.errors %}
+                                        <div class="text-danger small mt-1">{{ form.lettre_motivation.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Diplôme (PDF) <span class="text-danger">*</span></label>
+                                    {{ form.diplome }}
+                                    {% if form.diplome.errors %}
+                                        <div class="text-danger small mt-1">{{ form.diplome.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Photo d'identité (JPG/PNG) <span class="text-danger">*</span></label>
+                                {{ form.photo }}
+                                {% if form.photo.errors %}
+                                    <div class="text-danger small mt-1">{{ form.photo.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="certification" required>
+                        <label class="form-check-label" for="certification">
+                            Je certifie que les informations fournies sont exactes et que tous les documents soumis sont authentiques.
+                        </label>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
+                            <i class="fas fa-paper-plane me-2"></i>Soumettre l'inscription
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">Prénoms</label>
-                {{ form.prenoms }}
-                {% if form.prenoms.errors %}
-                    <div class="text-danger">{{ form.prenoms.errors }}</div>
-                {% endif %}
-            </div>
         </div>
-        
-        <!-- Ajouter les autres champs de la même manière -->
-        
-        <div class="mb-3">
-            <label class="form-label">Date de naissance</label>
-            {{ form.date_naissance }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Niveau d'études</label>
-            {{ form.niveau_etudes }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Établissement d'origine</label>
-            {{ form.etablissement_origine }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Concours souhaité</label>
-            {{ form.concours_souhaite }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            {{ form.email }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Téléphone</label>
-            {{ form.telephone }}
-        </div>
-        
-        <h4 class="mt-4 mb-3">Documents à fournir</h4>
-        
-        <div class="mb-3">
-            <label class="form-label">Extrait de naissance (PDF)</label>
-            {{ form.extrait_naissance }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Certificat de scolarité ou diplôme (PDF)</label>
-            {{ form.certificat }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Lettre de motivation (PDF)</label>
-            {{ form.lettre_motivation }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Diplôme (PDF)</label>
-            {{ form.diplome }}
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Photo d'identité (JPG/PNG)</label>
-            {{ form.photo }}
-        </div>
-        
-        <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" required>
-            <label class="form-check-label">Je certifie que les informations fournies sont exactes</label>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Soumettre l'inscription</button>
-    </form>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Validation des formulaires Bootstrap
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+    
+    // Animation des champs du formulaire
+    document.querySelectorAll('.form-control, .form-select').forEach((input, index) => {
+        input.style.opacity = '0';
+        input.style.transform = 'translateY(20px)';
+        input.style.transition = 'all 0.5s ease ' + (index * 0.1) + 's';
+        
+        setTimeout(() => {
+            input.style.opacity = '1';
+            input.style.transform = 'translateY(0)';
+        }, 100);
+    });
+</script>
 {% endblock %}
